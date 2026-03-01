@@ -1,11 +1,12 @@
 'use client'
 
 import { type ReactNode, useEffect, useRef } from 'react'
-import { Plus, Trash2, Download } from 'lucide-react'
+import { Plus, Trash2, Download, Save, RotateCcw } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useInvoice } from '@/lib/use-invoice'
 import { CURRENCIES } from '@/lib/constants'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import {
@@ -44,7 +45,7 @@ function Field({
 }
 
 export default function Home() {
-  const { invoice, loaded, update, updateItem, addItem, removeItem } = useInvoice()
+  const { invoice, loaded, update, updateItem, addItem, removeItem, saveAndNew, resetInvoice } = useInvoice()
   const autoPrint = useRef(typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('print') === 'true')
 
   useEffect(() => {
@@ -103,10 +104,11 @@ export default function Home() {
                 />
               </Field>
               <Field label="Address">
-                <Input
+                <Textarea
                   value={invoice.fromAddress}
                   onChange={(e) => update('fromAddress', e.target.value)}
-                  placeholder="123 Design Ave, San Francisco"
+                  placeholder={"123 Design Ave\nSan Francisco, CA 94103"}
+                  rows={3}
                 />
               </Field>
               <Field label="Phone">
@@ -140,10 +142,11 @@ export default function Home() {
                 />
               </Field>
               <Field label="Address">
-                <Input
+                <Textarea
                   value={invoice.toAddress}
                   onChange={(e) => update('toAddress', e.target.value)}
-                  placeholder="456 Client St, New York"
+                  placeholder={"456 Client St\nNew York, NY 10001"}
+                  rows={3}
                 />
               </Field>
             </div>
@@ -298,8 +301,8 @@ export default function Home() {
           </section>
         </div>
 
-        {/* Download button */}
-        <div className="px-6 pb-6 pt-4 border-t border-[#E5E5E5] shrink-0">
+        {/* Action buttons */}
+        <div className="px-6 pb-6 pt-4 border-t border-[#E5E5E5] shrink-0 flex flex-col gap-2">
           <Button
             onClick={handleDownload}
             className="w-full h-11 rounded-[10px] text-[14px] font-semibold"
@@ -307,6 +310,24 @@ export default function Home() {
             <Download size={15} strokeWidth={2} />
             Download PDF
           </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={saveAndNew}
+              className="flex-1 h-9 rounded-[8px] text-[13px] font-medium border-[#E5E5E5] text-[#111111] hover:bg-[#F5F5F5] hover:border-[#BBBBBB]"
+            >
+              <Save size={13} strokeWidth={2} />
+              Save &amp; New
+            </Button>
+            <Button
+              variant="outline"
+              onClick={resetInvoice}
+              className="flex-1 h-9 rounded-[8px] text-[13px] font-medium border-[#E5E5E5] text-[#888888] hover:bg-[#F5F5F5] hover:border-[#BBBBBB] hover:text-[#111111]"
+            >
+              <RotateCcw size={13} strokeWidth={2} />
+              Reset
+            </Button>
+          </div>
         </div>
       </aside>
 

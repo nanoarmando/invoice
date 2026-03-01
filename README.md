@@ -14,12 +14,15 @@ Free, open-source invoice generator. No account, no backend, no tracking beyond 
 - 56 currencies supported
 - VAT / tax rate field
 - Bank transfer & SEPA payment details (Beneficiary, IBAN, BIC)
+- Multi-line address fields with line-break support in the preview
+- **Save & New** — saves the current invoice and opens a fresh one pre-filled with your company/client data and an auto-incremented invoice number
+- **Reset** — clears all fields and starts from scratch
 - URL query params API — pre-fill any field via URL, auto-print with `?print=true`
 - Works on mobile
 
 ## Stack
 
-- Next.js 16 (App Router)
+- Next.js 16 (App Router, standalone output)
 - React 19
 - TypeScript (strict)
 - Tailwind CSS v4
@@ -35,24 +38,61 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Docker
+
+```bash
+# Build and start
+docker compose up --build
+
+# Detached
+docker compose up --build -d
+
+# Stop
+docker compose down
+```
+
+App available at `http://localhost:3000`.
+
 ## Project Structure
 
 ```
 app/
-  page.tsx              # Main app (sidebar form)
+  page.tsx              # Main app (sidebar form + action buttons)
   layout.tsx            # Root layout + metadata
   globals.css           # Font, Tailwind theme, print styles
   opengraph-image.tsx   # OG image (next/og)
 components/
   invoice-preview.tsx   # A4 invoice preview with print support
-  ui/                   # shadcn/ui components
+  ui/                   # shadcn/ui components (Input, Textarea, Button, …)
 lib/
-  types.ts              # Invoice + LineItem types
-  use-invoice.ts        # State hook with IndexedDB auto-save
-  store.ts              # IndexedDB read/write
+  types.ts              # Invoice + LineItem types, defaultInvoice
+  use-invoice.ts        # State hook: auto-save, saveAndNew, resetInvoice
+  store.ts              # IndexedDB read/write (current-invoice + saved-invoice)
   constants.ts          # Paper dimensions, currency list
   utils.ts              # formatDate, formatCurrency, cn()
+Dockerfile              # Multi-stage build (deps → builder → runner)
+docker-compose.yml      # Single-service compose file
 ```
+
+## Invoice Workflow
+
+### Auto-save
+Every keystroke is debounced 400 ms and persisted to IndexedDB (`current-invoice`). Reloading the page restores your draft automatically.
+
+### Save & New
+Clicking **Save & New** in the sidebar:
+1. Persists the current invoice to `saved-invoice` in IndexedDB.
+2. Opens a new blank invoice pre-filled with:
+   - Company name, email, address, phone
+   - Client name, email, address
+   - Invoice number auto-incremented (e.g. `INV-0042` → `INV-0043`, padding preserved)
+   - Today's issue date, empty due date, fresh line items
+
+### Reset
+Clicking **Reset** clears both `current-invoice` and `saved-invoice` from IndexedDB and restores all fields to their defaults.
+
+### First load with no draft
+If there is no current draft but a `saved-invoice` exists, the app pre-fills the carry-over fields and increments the invoice number automatically.
 
 ## URL Params API
 

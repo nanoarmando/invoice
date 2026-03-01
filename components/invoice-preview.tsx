@@ -52,7 +52,7 @@ export function InvoicePreview({ invoice }: { invoice: Invoice }) {
                 <p className="text-[12px] text-[#888888]">{invoice.fromPhone}</p>
               )}
               {invoice.fromAddress && (
-                <p className="text-[12px] text-[#888888]">{invoice.fromAddress}</p>
+                <p className="text-[12px] text-[#888888] whitespace-pre-line">{invoice.fromAddress}</p>
               )}
             </div>
             <div className="text-right">
@@ -78,7 +78,7 @@ export function InvoicePreview({ invoice }: { invoice: Invoice }) {
                 <p className="text-[12px] text-[#888888] mt-0.5">{invoice.toEmail}</p>
               )}
               {invoice.toAddress && (
-                <p className="text-[12px] text-[#888888]">{invoice.toAddress}</p>
+                <p className="text-[12px] text-[#888888] whitespace-pre-line">{invoice.toAddress}</p>
               )}
             </div>
             <div className="flex gap-8">
