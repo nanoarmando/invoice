@@ -1,0 +1,16 @@
+name: invoice
+services:
+  invoice:
+    image: ghcr.io/nanoarmando/invoice:latest
+    container_name: invoice
+    restart: unless-stopped
+    ports:
+      - "3010:3000"
+    environment:
+      - NODE_ENV=production
+
+x-casaos:
+  main: invoice
+  port_map: "3010"
+  title:
+    en_us: Invoice

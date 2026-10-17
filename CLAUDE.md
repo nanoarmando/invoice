@@ -36,7 +36,9 @@ Next.js 16 app using the App Router (`app/` directory). React 19, TypeScript (st
 - `components/invoice-preview.tsx` — A4 preview component, manages its own scale/ResizeObserver, renders addresses with `whitespace-pre-line`
 - `components/ui/` — shadcn/ui components (Button, Input, Textarea, Label, Select, DatePicker, Calendar, Popover)
 - `Dockerfile` — multi-stage build: deps → builder → Alpine runner
-- `docker-compose.yml` — single service on port 3000
+- `docker-compose.yml` — single service, local build, host port 3010
+- `docker-compose.casaos.yml` — CasaOS import file using `ghcr.io/nanoarmando/invoice:latest` (no `build:`; CasaOS cannot build)
+- `.github/workflows/docker-publish.yml` — on push to `master`, builds `linux/amd64` + `linux/arm64` and pushes `:latest` and `:<sha>` to GHCR
 
 **Key patterns:**
 - `app/` — pages and layouts (App Router)

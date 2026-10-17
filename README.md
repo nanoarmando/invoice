@@ -51,7 +51,18 @@ docker compose up --build -d
 docker compose down
 ```
 
-App available at `http://localhost:3000`.
+App available at `http://localhost:3010`.
+
+### Prebuilt image and CasaOS
+
+Every push to `master` builds a multi-arch image (`linux/amd64`, `linux/arm64`) and publishes it to GitHub Container Registry via `.github/workflows/docker-publish.yml`:
+
+```
+ghcr.io/nanoarmando/invoice:latest
+ghcr.io/nanoarmando/invoice:<commit-sha>
+```
+
+To install on CasaOS, open **App Store → + → Install a customized app → Import** and paste `docker-compose.casaos.yml`. The app is served on port `3010`. To update, pull the new `latest` image and recreate the app from CasaOS.
 
 ## Project Structure
 
@@ -71,7 +82,10 @@ lib/
   constants.ts          # Paper dimensions, currency list
   utils.ts              # formatDate, formatCurrency, cn()
 Dockerfile              # Multi-stage build (deps → builder → runner)
-docker-compose.yml      # Single-service compose file
+docker-compose.yml      # Single-service compose file (local build)
+docker-compose.casaos.yml  # CasaOS import file (uses the GHCR image)
+.github/workflows/
+  docker-publish.yml    # Builds and pushes the image to GHCR on push to master
 ```
 
 ## Invoice Workflow
