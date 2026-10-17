@@ -37,7 +37,7 @@ Next.js 16 app using the App Router (`app/` directory). React 19, TypeScript (st
 - `components/ui/` — shadcn/ui components (Button, Input, Textarea, Label, Select, DatePicker, Calendar, Popover)
 - `Dockerfile` — multi-stage build: deps → builder → Alpine runner
 - `docker-compose.yml` — single service, local build, host port 3010
-- `docker-compose.casaos.yml` — CasaOS import file using `ghcr.io/nanoarmando/invoice:latest` (no `build:`; CasaOS cannot build)
+- `docker-compose.casaos.yml` — CasaOS import file using `ghcr.io/nanoarmando/invoice:latest` (no `build:`; CasaOS cannot build). Its `x-casaos.icon` points to the raw GitHub URL of `public/casaos-icon.svg` on `master`
 - `.github/workflows/docker-publish.yml` — on push to `master`, builds `linux/amd64` (ubuntu-latest) and `linux/arm64` (ubuntu-24.04-arm) natively in parallel as `:<sha>-<arch>`, then a `merge` job publishes the multi-arch `:latest` and `:<sha>` to GHCR. Do not reintroduce QEMU: emulated arm64 builds take ~15 min
 
 **Key patterns:**

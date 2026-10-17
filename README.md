@@ -62,7 +62,7 @@ ghcr.io/nanoarmando/invoice:latest
 ghcr.io/nanoarmando/invoice:<commit-sha>
 ```
 
-To install on CasaOS, open **App Store → + → Install a customized app → Import** and paste `docker-compose.casaos.yml`. The app is served on port `3010`. To update, pull the new `latest` image and recreate the app from CasaOS.
+To install on CasaOS, open **App Store → + → Install a customized app → Import** and paste `docker-compose.casaos.yml`. The app is served on port `3010`, and its dashboard icon is `public/casaos-icon.svg`, loaded from the raw GitHub URL. To update, pull the new `latest` image and recreate the app from CasaOS.
 
 ## Project Structure
 

@@ -14,3 +14,4 @@ x-casaos:
   port_map: "3010"
   title:
     en_us: Invoice
+  icon: https://raw.githubusercontent.com/nanoarmando/invoice/master/public/casaos-icon.svg
