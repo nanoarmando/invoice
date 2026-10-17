@@ -55,7 +55,7 @@ App available at `http://localhost:3010`.
 
 ### Prebuilt image and CasaOS
 
-Every push to `master` builds a multi-arch image (`linux/amd64`, `linux/arm64`) and publishes it to GitHub Container Registry via `.github/workflows/docker-publish.yml`:
+Every push to `master` builds a multi-arch image (`linux/amd64`, `linux/arm64`, each on a native runner in parallel) and publishes it to GitHub Container Registry via `.github/workflows/docker-publish.yml`:
 
 ```
 ghcr.io/nanoarmando/invoice:latest
